@@ -1,5 +1,3 @@
-const bcrypt = require('bcryptjs')
-
 const db = require('../../data/db-config')
 
 module.exports = {
@@ -27,10 +25,6 @@ function findById(id) {
 }
 
 function add(userData) {
-  const hash = bcrypt.hashSync(userData.password, 12)
-
-  userData.password = hash
-
   return db('users')
     .insert(userData)
     .then(userIdArr => findById(userIdArr[0]))

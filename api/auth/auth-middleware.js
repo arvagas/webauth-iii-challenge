@@ -5,6 +5,7 @@ const secrets = require('../../config/secrets')
 module.exports = {
   restricted,
   generateToken,
+  extractUserId,
 }
 
 // Restrict access based on valid token
@@ -32,4 +33,15 @@ function generateToken(newUser) {
   }
 
   return jwt.sign(payload, secrets.jwtSecret, options)
+}
+
+// Extract department from user via JWT
+function extractUserId(token) {
+  let userId = ''
+
+  jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+    userId = JSON.stringify(decodedToken.user_id)
+  })
+  
+  return userId
 }
